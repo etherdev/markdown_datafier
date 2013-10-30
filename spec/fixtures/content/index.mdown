@@ -1,0 +1,10 @@
+Title Tag: My Homepage | My Website
+Description: This is a description meta for the home page.
+Keywords: rspec, testing, markdown
+Publish Date: 23 July 2010 00:00 EST
+Summary: This is a summary text for the home page.
+Nav Name: Home
+
+# Homepage
+
+This is the home page.

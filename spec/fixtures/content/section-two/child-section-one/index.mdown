@@ -1,0 +1,10 @@
+Status: published
+Title Tag: Subsection Child 1 Index | My Website
+Description: This is a description meta for the subsection child 1 index.
+Keywords: rspec, testing, markdown
+Publish Date: 23 July 2010 00:00 EST
+Summary: This is a summary text for the subsection child 1 index.
+
+# Subsection Child 1 Index
+
+This is the subsection child one index.
