@@ -2,6 +2,8 @@
 
 MarkdownDatafier is a ruby gem which reads a structure of Markdown files, parses their metadata and outputs to a simple hash. It is framework agnostic, configurable to any content and configuration location and easy to plug into your own API endpoints or controller actions.
 
+MarkdownDatafier was inspired by the NestaCMS framework. But instead of a self-contained CMS, I simply wanted to get data out of a Markdown file structure to be used however I like (direct into Mustache templates via server-side Sinarta or Rails; or via an API endpoint to a javascript framework, iOS/Android app, and so on).
+
 This is currently in an early alpha stage. Though it is likely to remain simple, there will undoubtedly be some feature additions and improvement to things like exception handling. This gem was developed using Ruby 2.0.0p247.
 
 ## Installation
@@ -54,6 +56,7 @@ Or specify a sub level (for instance by using the "shortname" of previously retr
     
     collection = server.indexes_for_sections("/section-two")
 
+Take a look at the file structure in spec/fixtures/content to see how the directory structure and meta data works.
 
 ## Contributing
 
