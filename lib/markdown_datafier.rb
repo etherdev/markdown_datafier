@@ -50,9 +50,13 @@ module MarkdownDatafier
   end
   
   def find_by_path(shortname)
-    path = determine_file_path(content_directory + strip_leading_slashes(shortname))
-    content = "Shortname: #{shortname}\nCreate Datetime: #{File.ctime(path)}\n" + File.open(path).read
-    parse_file_content(content)
+    begin
+      path = determine_file_path(content_directory + strip_leading_slashes(shortname))
+      content = "Shortname: #{shortname}\nCreate Datetime: #{File.ctime(path)}\n" + File.open(path).read
+      parse_file_content(content)
+    rescue
+      nil
+    end
   end
   
   def strip_leading_slashes(shortname)

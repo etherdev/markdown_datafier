@@ -218,6 +218,25 @@ describe MarkdownDatafier do
 
     end
   end
+  describe "with no matching content" do
+    
+    before(:each) do
+      server.config["content_directory"] = MarkdownDatafier.root + "/spec/fixtures/empty/"
+    end
+    
+    it "should return nil for find_by_path" do
+      expect(server.find_by_path("ragamuffin")).to be_nil
+    end
+    
+    it "should return nil for home page" do
+      expect(server.home_page).to be_nil
+    end
+    
+    it "should return nil for splash page" do
+      expect(server.splash_page).to be_nil
+    end
+    
+  end
 
   
   describe ".root" do
