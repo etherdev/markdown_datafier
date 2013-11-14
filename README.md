@@ -41,6 +41,8 @@ Files are accessed individually by their "shortname" (the file name path inside 
 
     content = server.find_by_path(some-existing-file)
 
+Nil is returned for non-matching requests.
+
 You can also get the home page like so:
     
     content = server.home_page
