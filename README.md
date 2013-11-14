@@ -24,13 +24,14 @@ Or install it yourself as:
 
 Create an object for your server and include MarkdownDatafier:
 
+    require 'markdown_datafier'
     class MyServerObject
       include MarkdownDatafier
     end
 
 Then create an instance of the server using the full path to your config directory:
 
-    server = MyServerObject.new(config_directory: "/path/to/config/")
+    server = MyServerObject.new(config_directory: "/absolute/path/to/config/")
     
 Inside your configuration directory, configure your config.yml file like so:
 

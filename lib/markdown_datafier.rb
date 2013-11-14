@@ -15,7 +15,7 @@ module MarkdownDatafier
   end
   
   def set_config_directory(path)
-    @config = YAML.load_file( path + "config.yml")
+    @config = YAML.load_file( path + "markdown_datafier.yml")
   end
   
   def content_directory
