@@ -2,12 +2,16 @@ require_relative 'spec_helper'
 
 describe MarkdownDatafier do
   
-  let(:server) { TestServer.new( config_directory: MarkdownDatafier.root + "/spec/fixtures/config/" )}
+  let(:server) { TestServer.new }
   
   describe "initialization" do
+    
+    before(:each) do
+      server.content_directory = MarkdownDatafier.root + "/spec/fixtures/content/"
+    end
   
-    it "should load configuration settings" do
-      expect(server.content_directory).to eq "/path/to/your/content/"
+    it "should set the content_directory" do
+      expect(server.content_directory).to eq MarkdownDatafier.root + "/spec/fixtures/content/"
     end
   end
 
@@ -15,7 +19,7 @@ describe MarkdownDatafier do
     let(:contents) { File.open(server.content_directory + "test-one.mdown").read }
     
     before(:each) do
-      server.config["content_directory"] = MarkdownDatafier.root + "/spec/fixtures/content/"
+      server.content_directory = MarkdownDatafier.root + "/spec/fixtures/content/"
     end
     
     it "should strip leading slashes from shortname" do
@@ -96,7 +100,7 @@ describe MarkdownDatafier do
   describe "with existing content" do
 
     before(:each) do
-      server.config["content_directory"] = MarkdownDatafier.root + "/spec/fixtures/content/"
+      server.content_directory = MarkdownDatafier.root + "/spec/fixtures/content/"
     end
 
     it "should return the home page content" do
@@ -221,7 +225,7 @@ describe MarkdownDatafier do
   describe "with no matching content" do
     
     before(:each) do
-      server.config["content_directory"] = MarkdownDatafier.root + "/spec/fixtures/empty/"
+      server.content_directory = MarkdownDatafier.root + "/spec/fixtures/empty/"
     end
     
     it "should return nil for find_by_path" do

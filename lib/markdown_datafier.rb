@@ -3,23 +3,11 @@ require "time"
 require "redcarpet"
 
 module MarkdownDatafier
-  attr_accessor :config
+  attr_accessor :content_directory
   class MetadataParseError < RuntimeError; end
   
   def self.root
     File.expand_path '../..', __FILE__
-  end
-  
-  def initialize(attributes)
-    set_config_directory(attributes[:config_directory])
-  end
-  
-  def set_config_directory(path)
-    @config = YAML.load_file( path + "markdown_datafier.yml")
-  end
-  
-  def content_directory
-    @config["content_directory"]
   end
   
   def home_page
