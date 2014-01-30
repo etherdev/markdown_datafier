@@ -3,11 +3,26 @@ require "time"
 require "redcarpet"
 
 module MarkdownDatafier
-  attr_accessor :content_directory
   class MetadataParseError < RuntimeError; end
+  
+  attr_accessor :content_path
   
   def self.root
     File.expand_path '../..', __FILE__
+  end
+  
+  def initialize(attributes)
+    @content_path = attributes[:content_path]
+  end
+  
+  def collect(directory=nil)
+    directory = directory.nil? ? @content_path : "#{@content_path}#{directory}"
+    collection = []
+    Dir.foreach(directory) do |f|
+      next if f == '.' || f == '..' || File.extname(f) != ".mdown"
+      collection << find_by_path(File.basename(f, ".mdown"))
+    end
+    collection
   end
   
   def home_page
@@ -21,10 +36,10 @@ module MarkdownDatafier
   def indexes_for_sections(directory=nil)
     sections = []
     if directory.nil?
-      Dir.chdir(content_directory)
+      Dir.chdir(@content_path)
       currrent_dir_name = ""
     else
-      Dir.chdir(content_directory + directory)
+      Dir.chdir(@content_path + directory)
       currrent_dir_name = File.basename(Dir.pwd)
     end
     sub_directories.each do |section|
@@ -39,7 +54,7 @@ module MarkdownDatafier
   
   def find_by_path(shortname)
     begin
-      path = determine_file_path(content_directory + strip_leading_slashes(shortname))
+      path = determine_file_path(@content_path + strip_leading_slashes(shortname))
       content = "Shortname: #{shortname}\nCreate Datetime: #{File.ctime(path)}\n" + File.open(path).read
       parse_file_content(content)
     rescue

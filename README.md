@@ -4,7 +4,7 @@ MarkdownDatafier is a ruby gem which reads a structure of Markdown files, parses
 
 MarkdownDatafier was inspired by the NestaCMS framework. But instead of a self-contained CMS, I simply wanted to get data out of a Markdown file structure to be used however I like (direct into Mustache templates via server-side Sinarta or Rails; or via an API endpoint to a javascript framework, iOS/Android app, and so on).
 
-This is currently in an early alpha stage. Though it is likely to remain simple, there will undoubtedly be some feature additions and improvement to things like exception handling. This gem was developed using Ruby 2.0.0p247.
+This gem was developed and tested using Ruby 2.0.0p353.
 
 ## Installation
 
@@ -20,24 +20,32 @@ Or install it yourself as:
 
     $ gem install markdown_datafier
 
-## Usage
+## Setup
 
-Create an object for your server and include MarkdownDatafier:
+Create an object, include MarkdownDatafier and set the absolute path to your Markdown files to the @@content_path global variable:
 
     require 'markdown_datafier'
-    class MyServerObject
+    class MyDatafier
       include MarkdownDatafier
     end
 
-Then create an instance of the server using the full path to your config directory:
+## Usage
 
-    server = MyServerObject.new(config_directory: "/absolute/path/to/config/")
+I've attempting to design this module to be useful in a few different ways, depending on your needs. In each case, you create a server instance targeted at the content directory of your choosing. However, how you design your application to both represent your content in Markdown and what you do with the resulting structured data is up to you. For instance, you can set it up so that each page of a website is represented by the structure of your Markdown files and subdirectories (look in /spec/fixtures/server_content/ for an example of this). Or, you could alternatively use each Markdown file to represent persistence of object data (look in /spec/fixtures/instances/ for an example of this), which could then be used to create objects on another class. 
     
-Inside your configuration directory, configure your config.yml file like so:
+Set up an instance of your server, passing the relative path to your content directory as shown:
 
-    content_directory: '/absolute/path/to/content/directory/'
+    server = MyDatafier.new(content_path: "/path/to/content/directory")
     
-Files are accessed individually by their "shortname" (the file name path inside your content_directory minus the extension, OR the parent directory name)
+If you want an array of hashes representing each Markdown file in the immediate :content_path, do:
+
+    content = server.collect
+    
+If you want an array of hashes representing each Markdown file in a subdirectory of :content_path, do:
+
+    content = server.collect("some_sub_directory")
+    
+Files can also be accessed individually by their "shortname" (the file name path inside your content_directory minus the extension, OR the parent directory name)
 
     content = server.find_by_path(some-existing-file)
 
@@ -51,6 +59,8 @@ Or a splash page like so:
 
     content = server.splash_page
     
+Both the home_page and splash pages work by the naming convention on the root :content_path.
+    
 You can also grab a collection of indexes for the top level sections of your content 
     
     collection = server.indexes_for_sections
@@ -60,6 +70,10 @@ Or specify a sub level (for instance by using the "shortname" of previously retr
     collection = server.indexes_for_sections("/section-two")
 
 Take a look at the file structure in spec/fixtures/content to see how the directory structure and meta data works.
+
+## Recommendation
+
+This will all work just dandy running as it is in ObjectSpace. However, the intention is that you would use Markdown files to manage your content and its structure, and either use Rake to generate actual HTML files or set up some sort of caching system (clearing and rewriting your cache when content is changed). There's no need to be doing all this parsing overhead with each request to your application.
 
 ## Contributing
 
